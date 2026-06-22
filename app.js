@@ -23,8 +23,8 @@ app.use(session({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-const authRoutes = require('./routes/auth');
-const notesRoutes = require('./routes/notes');
+const authRoutes = require('./auth');
+const notesRoutes = require('./notes');
 
 app.use('/auth', authRoutes);
 app.use('/notes', notesRoutes);
