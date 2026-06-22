@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const db = require('../db');
+const db = require('./db');
 
 // Halaman login
 router.get('/login', (req, res) => {
