@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('./db');
-const aes256 = require('../utils/aes256'); // implementasi AES-256-CBC manual (tanpa library AES)
+const aes256 = require('./aes256'); // implementasi AES-256-CBC manual (tanpa library AES)
 require('dotenv').config();
 
 const SECRET_KEY = Buffer.from(process.env.AES_SECRET_KEY); // harus 32 byte untuk AES-256
