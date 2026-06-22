@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Secure Notes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; min-height: 100vh; color: #fff; }
+        .navbar { background: #16213e; padding: 16px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .navbar h1 { color: #e94560; font-size: 20px; }
+        .navbar div { display: flex; align-items: center; gap: 16px; }
+        .navbar span { color: #888; font-size: 14px; }
+        .btn-logout { background: transparent; border: 1px solid #e94560; color: #e94560; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; text-decoration: none; }
+        .btn-logout:hover { background: #e94560; color: #fff; }
+        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .header h2 { color: #ccc; font-size: 18px; }
+        .btn-add { background: #e94560; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+        .btn-add:hover { background: #c73652; }
+        .empty { text-align: center; color: #555; padding: 60px 0; font-size: 16px; }
+        .note-card { background: #16213e; border-radius: 12px; padding: 20px; margin-bottom: 16px; border-left: 4px solid #e94560; }
+        .note-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .note-title { color: #fff; font-size: 16px; font-weight: bold; }
+        .note-badge { background: #0f3460; color: #4CAF50; padding: 3px 10px; border-radius: 20px; font-size: 11px; }
+        .note-content { color: #aaa; font-size: 14px; line-height: 1.6; margin-bottom: 14px; word-break: break-word; }
+        .note-footer { display: flex; justify-content: space-between; align-items: center; }
+        .note-date { color: #555; font-size: 12px; }
+        .note-actions { display: flex; gap: 8px; }
+        .btn-edit { background: #0f3460; color: #fff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; }
+        .btn-edit:hover { background: #1a4a8a; }
+        .btn-delete { background: transparent; border: 1px solid #e94560; color: #e94560; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .btn-delete:hover { background: #e94560; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>🔐 Secure Notes</h1>
+        <div>
+            <span>👤 <%= user.username %></span>
+            <a href="/auth/logout" class="btn-logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h2>Catatan Saya (<%= notes.length %>)</h2>
+            <a href="/notes/add" class="btn-add">+ Tambah Catatan</a>
+        </div>
+        <% if (notes.length === 0) { %>
+            <div class="empty">
+                <p>📝 Belum ada catatan.</p>
+                <p style="margin-top: 8px; font-size: 14px;">Klik tombol "Tambah Catatan" untuk mulai!</p>
+            </div>
+        <% } else { %>
+            <% notes.forEach(note => { %>
+                <div class="note-card">
+                    <div class="note-header">
+                        <span class="note-title"><%= note.title %></span>
+                        <span class="note-badge">🔒 AES-256 Encrypted</span>
+                    </div>
+                    <div class="note-content"><%= note.content %></div>
+                    <div class="note-footer">
+                        <span class="note-date"><%= new Date(note.created_at).toLocaleString('id-ID') %></span>
+                        <div class="note-actions">
+                            <a href="/notes/edit/<%= note.id %>" class="btn-edit">Edit</a>
+                            <form method="POST" action="/notes/delete/<%= note.id %>" style="display:inline;">
+                                <button type="submit" class="btn-delete" onclick="return confirm('Hapus catatan ini?')">Hapus</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</body>
+</html>
