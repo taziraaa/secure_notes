@@ -20,7 +20,7 @@ app.use(session({
     }
 }));
 
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', __dirname);
 app.set('view engine', 'ejs');
 
 const authRoutes = require('./auth');
