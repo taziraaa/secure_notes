@@ -12,12 +12,18 @@ router.get('/login', (req, res) => {
 // Proses login
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
-    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
-        if (err || results.length === 0) {
-            return res.render('login', { error: 'Email atau password salah!' });
+    db.query(
+    'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
+    [username, email, hashedPassword],
+    (err) => {
+        if (err) {
+            console.error('Database Error:', err);
+
+            return res.render('register', {
+                error: err.message
+            });
         }
-        const user = results[0];
-        const match = await bcrypt.compare(password, user.password);
+        res.redirect('/auth/login');
         if (!match) {
             return res.render('login', { error: 'Email atau password salah!' });
         }
