@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db');
+const db = require('../db');
 const aes256 = require('../utils/aes256'); // implementasi AES-256-CBC manual (tanpa library AES)
 require('dotenv').config();
 
